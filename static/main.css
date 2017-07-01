@@ -1,0 +1,19 @@
+table, th, td {
+    border: 1px solid lightgrey;
+    text-align: center;
+}
+
+#username-container {
+    padding-top: 5px;
+    float: right;
+    color: darkgray;
+    font-size: 14px;
+}
+
+.navbar {
+    border-bottom: 1px solid gray;
+    background-color: whitesmoke;
+}
+.navbar a {
+    color: darkgray;
+}
