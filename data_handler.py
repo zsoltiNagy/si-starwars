@@ -1,10 +1,13 @@
 import requests
 import psycopg2
+import urllib.parse as urlparse
 
 
 def execute_sql_statement(sql_statement, values=tuple()):
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
     # setup connection string, not the most secure way
-    connect_str = "dbname=szabadon user=szabadon host=localhost password=pringles"
+    connect_str = "dbname=url.path[1:] user=url.username password=url.password host=url.hostname port=url.port"
     # we create this variable by assigning a None value to it,
     # so when an Exception is catched, the function will not try to close a non-existing variable
     conn = None
