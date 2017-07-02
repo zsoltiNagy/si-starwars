@@ -3,7 +3,7 @@ $('#planetDetailModal').on('show.bs.modal', function (event) {
   var planets = button.data('planets').split(",") // Extract the info passed from Flask from data-* attributes
   $('#modal-table').find('td').remove(); // Clean modal table from td leftovers from earlier use
   // For every item in the extracted info make an AJAX request and then put them in the modal-table
-  for (var i = 0; i < planets.length; i++) {
+  for (let i = 0; i < planets.length; i++) {
     $.getJSON(planets[i].replace("http", "https"), function success(data){
         $("#modal-table").append('<tr><td>'+data.name+'</td><td>'+data.height+'</td><td>'+data.mass+'</td><td>'+data.hair_color+'</td><td>'+data.skin_color+'</td><td>'+data.eye_color+'</td><td>'+data.birth_year+'</td><td>'+data.gender+'</td>')
     });

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, json
 from data_handler import get_swapi_response, execute_sql_statement
 from constants import PLANETS, PLANET_ATTRIBUTES, PEOPLE_ATTRIBUTES, USER, PREVIOUS_URL, NEXT_URL
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -39,7 +40,7 @@ def registration():
     elif request.method == 'POST':
         if request.args.get('password') == request.args.get('second_password'):
             new_username = request.form['username']
-            new_password = request.form['password']
+            new_password = generate_password_hash(request.form['password'])
             check_username = execute_sql_statement("""SELECT username FROM starwars_users
                                                    WHERE username = %s""",
                                                    (new_username,))
@@ -64,15 +65,21 @@ def login():
     elif request.method == 'POST':
         login_username = request.form['login_username']
         login_password = request.form['login_password']
-        db_response = execute_sql_statement("""SELECT username FROM starwars_users
-                                               WHERE username = %s AND password = %s""",
-                                            (login_username, login_password))
-        if db_response:
-            global USER
-            USER = db_response[0][0]
-            return redirect(url_for('root'))
+        db_check_user = execute_sql_statement("""SELECT username, password FROM starwars_users
+                                               WHERE username = %s""",
+                                              (login_username,))
+        if db_check_user:
+            password_hash = db_check_user[0][1]
+            check_password = check_password_hash(password_hash, login_password)
+            if check_password:
+                global USER
+                USER = db_check_user[0][0]
+                return redirect(url_for('root'))
+            else:
+                header = "Incorrect password. Please try again!"
+                return render_template('login.html', header=header)
         else:
-            header = "Wrong username or password. Please try again!"
+            header = "Wrong username. Please try again!"
             return render_template('login.html', header=header)
 
 
