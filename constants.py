@@ -3,4 +3,4 @@ PLANET_ATTRIBUTES = ['Name', 'Diameter', 'Climate', 'Terrain', 'Surface Water Pe
 PEOPLE_ATTRIBUTES = ['Name', 'Height', 'Mass', 'Skin color', 'Hair color', 'Eye color', 'Birth year', 'Gender']
 USER = 'Guest'
 PREVIOUS_URL = ''
-NEXT_URL = ''
+NEXT_URL = 'https://swapi.co/api/planets/?page=2'

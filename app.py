@@ -15,9 +15,9 @@ def root():
         elif request.form['direction'] == 'Next':
             response = get_swapi_response(NEXT_URL)
         else:
-            response = get_swapi_response('http://swapi.co/api/planets/?page=1')
+            response = get_swapi_response('https://swapi.co/api/planets/?page=1')
     elif request.method == 'GET':
-        response = get_swapi_response('http://swapi.co/api/planets/?page=1')
+        response = get_swapi_response('https://swapi.co/api/planets/?page=1')
     PREVIOUS_URL = response[1]
     NEXT_URL = response[2]
     # voteStat = execute_sql_statement("""SELECT planetname, COUNT(planetname) FROM starwars_planets GROUP BY planetname;""")
