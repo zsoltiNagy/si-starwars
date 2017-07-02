@@ -14,6 +14,8 @@ def root():
             response = get_swapi_response(PREVIOUS_URL)
         elif request.form['direction'] == 'Next':
             response = get_swapi_response(NEXT_URL)
+        else:
+            response = get_swapi_response('http://swapi.co/api/planets/?page=1')
     elif request.method == 'GET':
         response = get_swapi_response('http://swapi.co/api/planets/?page=1')
     PREVIOUS_URL = response[1]
