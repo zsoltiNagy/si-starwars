@@ -95,8 +95,8 @@ def votePlanet():
         execute_sql_statement("""INSERT INTO starwars_planets (planetname, username)
                               VALUES (%s, %s)""",
                               (planet, user))
-        return json.dumps('You succesfully voted on' + str(planet))
-    return json.dumps('You already voted on' + str(planet))
+        return json.dumps('You succesfully voted on ' + str(planet))
+    return json.dumps('You already voted on ' + str(planet))
 
 
 def main():

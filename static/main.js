@@ -10,7 +10,7 @@ $('#planetDetailModal').on('show.bs.modal', function (event) {
   };
   // Update the modal's title.
   var modal = $(this)
-  modal.find('.modal-title').text('Residents of' + button.parent().closest('tr').children('td.planet-name').text())
+  modal.find('.modal-title').text('Residents of ' + button.parent().closest('tr').children('td.planet-name').text())
 });
 
 $('tr').on('click', '.vote-button', function() {
