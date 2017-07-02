@@ -13,38 +13,40 @@
 </head>
 <body>
   <nav class="navbar fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">Planet list</a>
-        </div>
-         <ul class="nav navbar-nav">
-          <!--<li><a data-toggle="modal" data-target="#voteStat" data-voteStat = {{ voteStat }}>Voting statistics</a></li>-->
-          {% if user == 'Guest' %}
-            <li><a href="/registration">Registration</a></li>
-            <li><a href="/login">Login</a></li>
-          {% else %}
-            <li><a href="/logout">Logout</a></li>
-          {% endif %}
-        </ul>
-        <div id="username-container">Signed in as 
-          <div id="username">{{user}}</div>
-        </div>
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Planet list</a>
       </div>
-    </nav>
+      <ul class="nav navbar-nav">
+      <!-- Here we provide the options of registration and login for the guest-user 
+      and the logout for the already logged in user.-->
+        {% if user == 'Guest' %}
+          <li><a href="/registration">Registration</a></li>
+          <li><a href="/login">Login</a></li>
+        {% else %}
+          <li><a href="/logout">Logout</a></li>
+        {% endif %}
+      </ul>
+      <div id="username-container">Signed in as 
+        <div id="username">{{user}}</div>
+      </div>
+    </div>
+  </nav>
   <div class="container">
     <div class="row">
       <h1> Star Wars universe planets </h1>
+      <!-- This is our HTMl part of the Pageflip handler -->
       <form action='/' method='POST'>
-      {% if not previous %}
-      <input class="btn btn-primary btn-md" type="submit" name="direction" value="Previous" disabled>
-      <input class="btn btn-primary btn-md" type="submit" name="direction" value="Next">
-      {% elif not next %}
-      <input class="btn btn-primary btn-md" type="submit" name="direction" value="Previous">
-      <input class="btn btn-primary btn-md" type="submit" name="direction" value="Next" disabled>
-      {% else %}
-      <input class="btn btn-primary btn-md" type="submit" name="direction" value="Previous">
-      <input class="btn btn-primary btn-md" type="submit" name="direction" value="Next">
-      {% endif%}
+        {% if not previous %}
+          <input class="btn btn-primary btn-md" type="submit" name="direction" value="Previous" disabled>
+          <input class="btn btn-primary btn-md" type="submit" name="direction" value="Next">
+        {% elif not next %}
+          <input class="btn btn-primary btn-md" type="submit" name="direction" value="Previous">
+          <input class="btn btn-primary btn-md" type="submit" name="direction" value="Next" disabled>
+        {% else %}
+          <input class="btn btn-primary btn-md" type="submit" name="direction" value="Previous">
+          <input class="btn btn-primary btn-md" type="submit" name="direction" value="Next">
+        {% endif%}
       </form>
     </div>
     <div class="row">
@@ -59,97 +61,71 @@
       {% endif %}
 
       {% for planet in planets%}
-      <tr>
-        <td class="planet-name">{{ planet[0] }}</td>
-        
-        {% if planet[1] == 'unknown' %}
-        <td>{{ planet[1] }}</td>
-        {% else %}
-        <td> {{ '{:,}'.format(planet[1]|int) }} km</td>
-        {% endif %}
-        
-        <td> {{ planet[2] }}</td>
-        <td> {{ planet[3] }}</td>
-        
-        {% if planet[4] == 'unknown' %}
-        <td> {{ planet[4] }}</td>
-        {% else %}
-        <td> {{ planet[4] }}%</td>
-        {% endif %}
-        
-        {% if planet[5] == 'unknown' %}
-        <td> {{ planet[5] }}</td>
-        {% else %}
-        <td> {{ '{:,}'.format(planet[5]|int) }} people</td>
-        {% endif %}
-        
-        {% if planet[6][0] %}
-          <td><button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myModal" data-planets= {{ planet[6]|join(',') }}>{{ planet[6]|length }} resident(s)</button></td>
-        {% else %}
-          <td>No known residents</td>
-        {% endif %}
+        <tr>
+          <td class="planet-name">{{ planet[0] }}</td>
 
-        {% if user != 'Guest' %}
-          <td><button type="button" class"btn btn-default btn-md vote-button"><span class="glyphicon glyphicon-thumbs-up vote-button"></span></button></td>
-        {% endif %}
-      </tr>
+          {% if planet[1] == 'unknown' %}
+            <td>{{ planet[1] }}</td>
+          {% else %}
+            <td> {{ '{:,}'.format(planet[1]|int) }} km</td>
+          {% endif %}
+
+          <td> {{ planet[2] }}</td>
+          <td> {{ planet[3] }}</td>
+
+          {% if planet[4] == 'unknown' %}
+            <td> {{ planet[4] }}</td>
+          {% else %}
+            <td> {{ planet[4] }}%</td>
+          {% endif %}
+
+          {% if planet[5] == 'unknown' %}
+            <td> {{ planet[5] }}</td>
+          {% else %}
+            <td> {{ '{:,}'.format(planet[5]|int) }} people</td>
+          {% endif %}
+
+          {% if planet[6][0] %}
+            <td><button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#planetDetailModal" data-planets= {{ planet[6]|join(',') }}>{{ planet[6]|length }} resident(s)</button></td>
+          {% else %}
+            <td>No known residents</td>
+          {% endif %}
+
+          {% if user != 'Guest' %}
+            <td><button type="button" class"btn btn-default btn-md vote-button"><span class="glyphicon glyphicon-thumbs-up vote-button"></span></button></td>
+          {% endif %}
+        </tr>
       {% endfor %}
       </table>
     </div>
     <footer class="footer">
-        <p>&copy; Zsolt Nagy 2017</p>
+      <p>&copy; Zsolt Nagy 2017</p>
     </footer>
-    
 
-  <!-- Planet detail modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-    
-      <!-- Planet detail modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <table id="modal-table">
-            {% for attribute in people_attributes %}
-            <th class="modal-tablehead"> {{ attribute }} </th>
-            {% endfor %}
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
+    <!-- Planet detail modal -->
+    <div class="modal fade" id="planetDetailModal" tabindex="-1" role="dialog" aria-labelledby="planetDetailModalLabel">
+      <div class="modal-dialog" role="document">
       
-    </div>
-  </div>
-
-  <!-- Vote statistics modal
-  <div class="modal fade" id="voteStat" tabindex="-1" role="dialog" aria-labelledby="voteStatLabel">
-    <div class="modal-dialog" role="document">
-    
-      Vote statistics modal content
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="voteStatLabel">Modal Header</h4>
+        <!-- Planet detail modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="planetDetailModalLabel">Modal Header</h4>
+          </div>
+          <div class="modal-body">
+            <table id="modal-table">
+              {% for attribute in people_attributes %}
+              <th class="modal-tablehead"> {{ attribute }} </th>
+              {% endfor %}
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
-        <div class="modal-body">
-          <table id="voteStat-table">
-            <th> Planet name </th>
-            <th> Recieved votes </th>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+        
       </div>
-      
     </div>
-  </div>
-  -->
   </div>
 </body>
 </html>

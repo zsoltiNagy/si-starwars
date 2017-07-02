@@ -1,12 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, json
 from data_handler import get_swapi_response, execute_sql_statement
-from constants import PLANETS, PLANET_ATTRIBUTES, PEOPLE_ATTRIBUTES
+from constants import PLANETS, PLANET_ATTRIBUTES, PEOPLE_ATTRIBUTES, USER, PREVIOUS_URL, NEXT_URL
 
 app = Flask(__name__)
-
-USER = 'Guest'
-PREVIOUS_URL = ''
-NEXT_URL = ''
 
 
 @app.route('/', methods=['GET', 'POST'])
