@@ -10,9 +10,9 @@ def root():
     global NEXT_URL
     global PREVIOUS_URL
     if request.method == 'POST':
-        if request.form['direction'] == 'Previous':
+        if request.form['direction'] == 'Previous' and PREVIOUS_URL:
             response = get_swapi_response(PREVIOUS_URL)
-        elif request.form['direction'] == 'Next':
+        elif request.form['direction'] == 'Next' and NEXT_URL:
             response = get_swapi_response(NEXT_URL)
         else:
             response = get_swapi_response('https://swapi.co/api/planets/?page=1')
