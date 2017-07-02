@@ -1,5 +1,6 @@
 import requests
 import psycopg2
+import os
 import urllib.parse as urlparse
 
 
