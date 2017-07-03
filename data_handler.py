@@ -1,18 +1,11 @@
 import requests
 import psycopg2
 import os
-import urllib.parse as urlparse
 
 
 def execute_sql_statement(sql_statement, values=tuple()):
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    connect_str = "dbname=szabadon user=szabadon host=localhost password=pringles"
     # setup connection string, not the most secure way
-    dbname = url.path[1:]
-    user = url.username
-    password = url.password
-    host = url.hostname
-    port = url.port
     # we create this variable by assigning a None value to it,
     # so when an Exception is catched, the function will not try to close a non-existing variable
     conn = None
@@ -20,13 +13,7 @@ def execute_sql_statement(sql_statement, values=tuple()):
         # use our connection values assigned to the connection string to establish a connection
         # Hey dawg, I heard you like connection, so I put your connection values into your connection string to
         # use them to establish a connection
-        conn = psycopg2.connect(
-                     dbname=dbname,
-                     user=user,
-                     password=password,
-                     host=host,
-                     port=port
-                     )
+        conn = psycopg2.connect(connect_str)
     except psycopg2.DatabaseError as e:  # TODO don't use this, remember: "raise PythonicError("Errors should never go silently.")
         print(e)
         return [[e]]
